@@ -10,4 +10,10 @@
     <color name = "easy_game">#5ACD3A</color>
     <color name = "medium_game">#EFED6D</color>
     <color name = "hard_game">#CD0E0E</color>
+    <color name="first_option">#15DF30</color>
+    <color name="second_option">#FFFA82</color>
+    <color name="third_option">#4C11ED</color>
+    <color name="fourth_option">#8F0B0B</color>
+    <color name="fifth_option">#CF17DC</color>
+    <color name="sixth_option">#E35B1A</color>
 </resources>

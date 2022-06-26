@@ -21,34 +21,46 @@
 
     <TextView
         android:id="@+id/sumTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/round_circle"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="SUM NUMBER" />
+        tools:text="7" />
 
     <TextView
         android:id="@+id/visibleNumberTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/teal_700"
+        android:gravity="center"
+        android:textSize="42sp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@id/answerNumberTextView"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sumTextView"
-        tools:text="VISIBLE NUMBER">
+        tools:text="8">
 
     </TextView>
 
     <TextView
         android:id="@+id/answerNumberTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/teal_700"
+        android:gravity="center"
+        android:textSize="42sp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/visibleNumberTextView"
         app:layout_constraintTop_toBottomOf="@+id/sumTextView"
-        tools:text="ANSWER">
+        tools:text=" ? ">
 
     </TextView>
 
@@ -57,41 +69,100 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:paddingTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/visibleNumberTextView"
-        android:paddingTop="8dp"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/visibleNumberTextView">
 
     </SeekBar>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        style="@style/number_style"
+        android:id="@+id/firstOptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/first_option"
+
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@id/fourthOptionTextView"
+        app:layout_constraintEnd_toStartOf="@+id/secondOptionTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+
+
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="1">
 
     </TextView>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        style="@style/number_style"
+        android:id="@+id/secondOptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/second_option"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@id/fifthOptionTextView"
+        app:layout_constraintEnd_toStartOf="@+id/thirdOptionTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/firstOptionTextView"
+        tools:text="2">
 
     </TextView>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        style="@style/number_style"
+        android:id="@+id/thirdOptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/third_option"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@id/sixthOptionTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/secondOptionTextView"
+        tools:text="3">
 
     </TextView>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        style="@style/number_style"
+        android:id="@+id/fourthOptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/fourth_option"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fifthOptionTextView"
+        tools:text="4">
 
     </TextView>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        style="@style/number_style"
+        android:id="@+id/fifthOptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/fifth_option"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/sixthOptionTextView"
+        app:layout_constraintStart_toEndOf="@+id/fourthOptionTextView"
+        tools:text="5">
 
     </TextView>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        style="@style/number_style"
+        android:id="@+id/sixthOptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/sixth_option"
+        android:textSize="36sp"
+        app:layout_constraintStart_toEndOf="@id/fifthOptionTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="6">
 
     </TextView>
 
