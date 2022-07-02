@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.nubmergame.R
 import com.example.nubmergame.databinding.ChooseGameLevelFragmentLayoutBinding
+import com.example.nubmergame.domain.Level
 import java.lang.RuntimeException
 
 class ChooseGameLevelFragment: Fragment() {
@@ -20,11 +21,52 @@ class ChooseGameLevelFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _chooseGameBinding = ChooseGameLevelFragmentLayoutBinding.inflate(inflater,container,false)
+
         return chooseGameBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(chooseGameBinding){
+            testTextView.setOnClickListener(View.OnClickListener {
+                launchFragment(Level.TEST)
+
+
+            })
+            easyTextView.setOnClickListener(View.OnClickListener {
+                launchFragment(Level.EASY)
+
+            })
+            mediumTextView.setOnClickListener(View.OnClickListener {
+                launchFragment(Level.MEDIUM)
+
+            })
+            hardTextView.setOnClickListener(View.OnClickListener {
+                launchFragment(Level.HARD)
+
+            })
+
+        }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _chooseGameBinding = null
     }
+    fun launchFragment(level: Level){
+        requireActivity().supportFragmentManager.beginTransaction().addToBackStack(GameFragment.GAME_FRAGMENT)
+            .replace(R.id.fragmentContainer,GameFragment.getInstance(level)).commit()
+
+
+
+    }
+    companion object{
+        public const val CHOOSE_GAME_LEVEL_NAME = "choose_game_level"
+        fun getInstance():ChooseGameLevelFragment{
+            return ChooseGameLevelFragment()
+
+        }
+    }
+
 }

@@ -19,11 +19,18 @@ class StartGameFragment:Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _startGameBinding = StartGameFragmentLayoutBinding.inflate(inflater,container,false)
+        startGameBinding.startGameButton.setOnClickListener(View.OnClickListener {
+            launchGame()
+        })
         return startGameBinding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _startGameBinding = null
+    }
+    fun launchGame(){
+        requireActivity().supportFragmentManager.beginTransaction()
+            .addToBackStack(ChooseGameLevelFragment.CHOOSE_GAME_LEVEL_NAME).replace(R.id.fragmentContainer,ChooseGameLevelFragment.getInstance()).commit()
     }
 }

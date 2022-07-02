@@ -14,4 +14,5 @@
     <string name="medium">MEDIUM</string>
     <string name="hard">HARD</string>
     <string name="choose_level_of_game">Выберите Сложность</string>
+    <string name="try_again">Попробовать ЕЩЕ РАЗ</string>
 </resources>
