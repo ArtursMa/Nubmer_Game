@@ -29,7 +29,9 @@ class EndGameFragment:Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       gameResult =  requireArguments().getSerializable(KEY_GAME_RESULT) as GameResult
+       requireArguments().getParcelable<GameResult>(KEY_GAME_RESULT)?.let {
+           gameResult = it
+       }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +42,9 @@ class EndGameFragment:Fragment() {
             }
 
 
+        })
+        endGameBinding.restartGameButton.setOnClickListener(View.OnClickListener {
+            retryGame()
         })
     }
 
@@ -54,7 +59,7 @@ class EndGameFragment:Fragment() {
         fun getInstance(result:GameResult):EndGameFragment{
            return EndGameFragment().apply {
                arguments = Bundle().apply {
-                   putSerializable(KEY_GAME_RESULT,result)
+                   putParcelable(KEY_GAME_RESULT,result)
                }
            }
 
