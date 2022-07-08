@@ -6,8 +6,12 @@ import com.example.nubmergame.domain.Level
 import com.example.nubmergame.domain.Question
 import kotlin.random.Random
 
-object GameRepositoryImpl:GameRepository {
-    private const val MIN_SUM = 2
+class GameRepositoryImpl:GameRepository {
+    companion object{
+        private const  val MIN_SUM = 2
+
+    }
+    private  val MIN_SUM = 2
 
     override fun getQuestions(maxSumValue: Int, countOfOptions: Int): Question {
         val sum = Random.nextInt(MIN_SUM,maxSumValue+1)
@@ -33,12 +37,12 @@ object GameRepositoryImpl:GameRepository {
                 20,
                 4,
                 50,
-                8
+                10
 
             )
-            Level.EASY-> GameSettings(20,4,60,10)
-            Level.MEDIUM-> GameSettings(20,4,60,10)
-            Level.HARD->GameSettings(20,4,60,10)
+            Level.EASY-> GameSettings(20,4,60,60)
+            Level.MEDIUM-> GameSettings(20,4,60,50)
+            Level.HARD->GameSettings(20,4,60,40)
         }
     }
 }

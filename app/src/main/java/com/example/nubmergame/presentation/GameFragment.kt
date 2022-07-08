@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.nubmergame.R
+import com.example.nubmergame.data.NumberGameApplication
 import com.example.nubmergame.databinding.GameLayoutBinding
 import com.example.nubmergame.domain.GameResult
 import com.example.nubmergame.domain.GameSettings
@@ -13,7 +15,12 @@ import com.example.nubmergame.domain.Level
 import java.lang.RuntimeException
 
 
+
 class GameFragment:Fragment() {
+    val gameViewModel:GameViewModel by viewModels {
+        GameViewModel.GameViewModelProviderFactory((requireActivity().application as NumberGameApplication).repository,level)
+    }
+
     private lateinit var level:Level
     private var _gameFragmentBinding:GameLayoutBinding? = null
     private val gameFragmentBinding:GameLayoutBinding
@@ -30,6 +37,7 @@ class GameFragment:Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parsArgs()
+
 
     }
 
