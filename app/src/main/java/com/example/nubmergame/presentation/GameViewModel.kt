@@ -1,5 +1,6 @@
 package com.example.nubmergame.presentation
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -41,8 +42,18 @@ class GameViewModel(val repository: GameRepository,val level: Level): ViewModel(
     var timerInSeconds = 0
     var timeInMin = 0
 
+
     var amountOfRightAnswers = 0
     var amountOfAnswers = 0
+    var textTimer = "00:00"
+    private var _timeLiveData = MutableLiveData<String>()
+    val timerLiveData:LiveData<String>
+    get() = _timeLiveData
+
+    private var _gameIsFinished = MutableLiveData<Boolean>()
+    val gameIsFinished:LiveData<Boolean>
+    get()= _gameIsFinished
+
 
 
 
@@ -71,12 +82,18 @@ class GameViewModel(val repository: GameRepository,val level: Level): ViewModel(
     fun chooseAnswer(answer:Int){
         var correctAnswer = _gameQuestion.value?.sum!! - _gameQuestion.value?.visibleNumber!!
         if(correctAnswer == answer){
-            amountOfAnswers++
+            amountOfRightAnswers++
         }
         amountOfAnswers++
-        _percentOfRightAnswers.value = (amountOfRightAnswers/amountOfAnswers)*100
+        _percentOfRightAnswers.value = ((amountOfRightAnswers.toDouble()/amountOfAnswers.toDouble())*100).toInt()
         _enoughRightAnswers.value = amountOfRightAnswers>= _gameSettings.value?.minCorrectAnswer!!
         _enoughPercentOfRightAnswers.value = percentOfRightAnswers.value!! >= gameSettings.value?.minCorrectAnswerPercent!!
+
+        if(timeInMin+timerInSeconds>0){
+            getQuestion()
+
+        }
+
 
 
 
@@ -84,11 +101,13 @@ class GameViewModel(val repository: GameRepository,val level: Level): ViewModel(
     }
 
     private fun startTimer(timeInSec:Int?) {
-        var timeInMills = (timeInSec?.times(1000) as Long)
-        var countDownTimer = (object :CountDownTimer(timeInMills,1000){
+        var timeInMills = (timeInSec?.times(1000)?.toLong())
+        var countDownTimer = (object :CountDownTimer(timeInMills!!,1000){
             override fun onTick(p0: Long) {
                 timeInMin = ((p0/60)/1000).toInt()
                 timerInSeconds = ((p0/1000)%60).toInt()
+                textTimer = String.format("%02d:%02d",timeInMin,timerInSeconds)
+                _timeLiveData.value = textTimer
 
             }
 
@@ -106,12 +125,8 @@ class GameViewModel(val repository: GameRepository,val level: Level): ViewModel(
 
     private fun finishGame() {
         var isWinner = _enoughPercentOfRightAnswers.value == true && _enoughRightAnswers.value == true
-        var gameResult =
-            gameSettings.value?.let {
-                GameResult(isWinner,amountOfRightAnswers,amountOfAnswers,
-                    it
-                )
-            }
+         _gameResult.value = GameResult(isWinner,amountOfRightAnswers,amountOfAnswers,gameSettings.value!!)
+        _gameIsFinished.value = true
     }
 
     companion object{

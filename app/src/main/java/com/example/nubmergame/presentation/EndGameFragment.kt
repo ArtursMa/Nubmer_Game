@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -14,6 +16,9 @@ import com.example.nubmergame.domain.GameResult
 import java.lang.RuntimeException
 
 class EndGameFragment:Fragment() {
+    private lateinit var gameResultImage:ImageView
+    private lateinit var gameResultTextView: TextView
+
     private lateinit var gameResult:GameResult
     private var _endGameBinding:EndGameLayoutBinding?= null
     private val endGameBinding:EndGameLayoutBinding
@@ -32,10 +37,18 @@ class EndGameFragment:Fragment() {
        requireArguments().getParcelable<GameResult>(KEY_GAME_RESULT)?.let {
            gameResult = it
        }
+
+    }
+
+    private fun initViews() {
+        gameResultImage = endGameBinding.gameResultImageView
+        gameResultTextView = endGameBinding.gameResultTextView
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,object:OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 retryGame()
@@ -46,6 +59,27 @@ class EndGameFragment:Fragment() {
         endGameBinding.restartGameButton.setOnClickListener(View.OnClickListener {
             retryGame()
         })
+        if(gameResult.isWinner){
+            gameResultImage.setBackgroundResource(R.drawable.ic_baseline_sentiment_very_satisfied_24)
+        }
+        else{
+            gameResultImage.setBackgroundResource(R.drawable.ic_round_sentiment_dissatisfied_24)
+        }
+        setText()
+    }
+
+    private fun setText() {
+        if(gameResult.isWinner){
+            gameResultTextView.text = "Правильных ответов ${gameResult.countOfRightAnswers} " +
+                    "из ${gameResult.countOfQuestions} вы победили"
+
+        }
+        else{
+            gameResultTextView.text = "Правильных ответов ${gameResult.countOfRightAnswers} " +
+                    "из ${gameResult.countOfQuestions} вы лошара"
+
+        }
+
     }
 
 
