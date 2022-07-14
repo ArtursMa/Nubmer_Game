@@ -37,6 +37,11 @@ android {
     buildFeatures{
         viewBinding  true
     }
+    kotlinOptions{
+        freeCompilerArgs += [
+                "-Xjvm-default=all",
+        ]
+    }
 }
 
 dependencies {
@@ -61,6 +66,8 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.1.0'
 
     //navigation
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
 

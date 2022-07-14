@@ -133,7 +133,7 @@ class GameViewModel(val repository: GameRepository,val level: Level): ViewModel(
         private const val NUMBER_OF_OPTIONS = 6
     }
 class GameViewModelProviderFactory(private val repository: GameRepository,private val level: Level):ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(GameViewModel::class.java)){
 @Suppress("UNCHECKED)CAST")
 return GameViewModel(repository,level) as T
