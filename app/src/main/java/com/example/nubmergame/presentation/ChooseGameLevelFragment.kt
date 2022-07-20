@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.nubmergame.R
 import com.example.nubmergame.databinding.ChooseGameLevelFragmentLayoutBinding
 import com.example.nubmergame.domain.Level
@@ -55,18 +56,11 @@ class ChooseGameLevelFragment: Fragment() {
         _chooseGameBinding = null
     }
     fun launchFragment(level: Level){
-        requireActivity().supportFragmentManager.beginTransaction().addToBackStack(GameFragment.GAME_FRAGMENT)
-            .replace(R.id.fragmentContainer,GameFragment.getInstance(level)).commit()
+
+        findNavController().navigate(ChooseGameLevelFragmentDirections.actionChooseGameLevelFragmentToGameFragment(level))
 
 
 
-    }
-    companion object{
-        public const val CHOOSE_GAME_LEVEL_NAME = "choose_game_level"
-        fun getInstance():ChooseGameLevelFragment{
-            return ChooseGameLevelFragment()
-
-        }
     }
 
 }

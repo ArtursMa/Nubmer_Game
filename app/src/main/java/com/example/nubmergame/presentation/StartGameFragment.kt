@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.nubmergame.R
 import com.example.nubmergame.databinding.StartGameFragmentLayoutBinding
 import java.lang.RuntimeException
@@ -29,8 +30,7 @@ class StartGameFragment:Fragment() {
         super.onDestroyView()
         _startGameBinding = null
     }
-    fun launchGame(){
-        requireActivity().supportFragmentManager.beginTransaction()
-            .addToBackStack(ChooseGameLevelFragment.CHOOSE_GAME_LEVEL_NAME).replace(R.id.fragmentContainer,ChooseGameLevelFragment.getInstance()).commit()
+    private fun launchGame(){
+        findNavController().navigate(R.id.action_startGameFragment_to_chooseGameLevelFragment)
     }
 }

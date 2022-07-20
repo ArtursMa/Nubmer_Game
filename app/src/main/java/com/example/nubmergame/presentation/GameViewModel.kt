@@ -54,6 +54,8 @@ class GameViewModel(val repository: GameRepository,val level: Level): ViewModel(
     val gameIsFinished:LiveData<Boolean>
     get()= _gameIsFinished
 
+    lateinit var countDownTimer:CountDownTimer
+
 
 
 
@@ -89,10 +91,10 @@ class GameViewModel(val repository: GameRepository,val level: Level): ViewModel(
         _enoughRightAnswers.value = amountOfRightAnswers>= _gameSettings.value?.minCorrectAnswer!!
         _enoughPercentOfRightAnswers.value = percentOfRightAnswers.value!! >= gameSettings.value?.minCorrectAnswerPercent!!
 
-        if(timeInMin+timerInSeconds>0){
+
             getQuestion()
 
-        }
+
 
 
 
@@ -102,7 +104,7 @@ class GameViewModel(val repository: GameRepository,val level: Level): ViewModel(
 
     private fun startTimer(timeInSec:Int?) {
         var timeInMills = (timeInSec?.times(1000)?.toLong())
-        var countDownTimer = (object :CountDownTimer(timeInMills!!,1000){
+         countDownTimer = (object :CountDownTimer(timeInMills!!,1000){
             override fun onTick(p0: Long) {
                 timeInMin = ((p0/60)/1000).toInt()
                 timerInSeconds = ((p0/1000)%60).toInt()
@@ -118,6 +120,7 @@ class GameViewModel(val repository: GameRepository,val level: Level): ViewModel(
 
 
         }).start()
+
 
 
 

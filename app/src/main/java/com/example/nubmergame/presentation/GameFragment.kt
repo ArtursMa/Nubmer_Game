@@ -1,6 +1,7 @@
 package com.example.nubmergame.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.nubmergame.R
 import com.example.nubmergame.data.NumberGameApplication
 import com.example.nubmergame.databinding.GameLayoutBinding
@@ -22,8 +25,12 @@ import java.lang.RuntimeException
 
 
 class GameFragment:Fragment() {
+    private val arguments by navArgs<GameFragmentArgs>()
+
+
+
     val gameViewModel:GameViewModel by viewModels {
-        GameViewModel.GameViewModelProviderFactory((requireActivity().application as NumberGameApplication).repository,level)
+        GameViewModel.GameViewModelProviderFactory((requireActivity().application as NumberGameApplication).repository,arguments.level)
     }
     private lateinit var timerTextView:TextView
     private lateinit var startButton:Button
@@ -42,7 +49,7 @@ class GameFragment:Fragment() {
 
 
 
-    private lateinit var level:Level
+
     private var _gameFragmentBinding:GameLayoutBinding? = null
     private val gameFragmentBinding:GameLayoutBinding
     get()= _gameFragmentBinding?:throw RuntimeException("binding== null")
@@ -55,12 +62,7 @@ class GameFragment:Fragment() {
         return gameFragmentBinding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parsArgs()
 
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,7 +77,7 @@ class GameFragment:Fragment() {
 
 
     private fun startGame() {
-// TODO       startButton.visibility = View.Gone
+       startButton.visibility = View.GONE
         gameViewModel.startGame()
         gameViewModel.timerLiveData.observe(viewLifecycleOwner, Observer {
             timerTextView.text = it
@@ -128,6 +130,7 @@ class GameFragment:Fragment() {
             percentOfRightAnswers.progress = it
 
 
+
         gameViewModel.gameIsFinished.observe(viewLifecycleOwner){
             if(it){
                 gameViewModel.gameResult.value?.let { it1 -> finishGame(it1) }
@@ -151,27 +154,19 @@ class GameFragment:Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _gameFragmentBinding =null
+        gameViewModel.countDownTimer.cancel()
 
     }
-    companion object{
-        public const val GAME_FRAGMENT = "game_fragment"
-        private const val KEY_LEVEL = "level"
-        fun getInstance(gameLevel: Level):GameFragment{
-            return GameFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_LEVEL,gameLevel)
-                }
 
-            }
+
+    private fun finishGame(result: GameResult){
+
+
+        if(findNavController().currentDestination?.id==R.id.gameFragment){
+            findNavController().navigate(GameFragmentDirections.actionGameFragmentToEndGameFragment(result))
 
         }
-    }
-    private fun parsArgs(){
-        level = requireArguments().getParcelable<Level>(KEY_LEVEL) as Level
-    }
-    private fun finishGame(result: GameResult){
-        requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null)
-            .replace(R.id.fragmentContainer,EndGameFragment.getInstance(result)).commit()
+
 
     }
     private fun initViews(){
@@ -181,6 +176,8 @@ class GameFragment:Fragment() {
         visibleNumber = gameFragmentBinding.visibleNumberTextView
         answerTextView = gameFragmentBinding.answerNumberTextView
         percentOfRightAnswers = gameFragmentBinding.percentOfCorrectAnswers
+        percentOfRightAnswers.isEnabled= false
+
         firstOptionTextView = gameFragmentBinding.firstOptionTextView
         secondOptionTextView = gameFragmentBinding.secondOptionTextView
         thirdOptionTextView = gameFragmentBinding.thirdOptionTextView
@@ -189,4 +186,5 @@ class GameFragment:Fragment() {
         sixthOptionTextView = gameFragmentBinding.sixthOptionTextView
 
     }
+
 }

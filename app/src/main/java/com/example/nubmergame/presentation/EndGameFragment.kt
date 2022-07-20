@@ -10,6 +10,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.nubmergame.R
 import com.example.nubmergame.databinding.EndGameLayoutBinding
 import com.example.nubmergame.domain.GameResult
@@ -19,7 +21,7 @@ class EndGameFragment:Fragment() {
     private lateinit var gameResultImage:ImageView
     private lateinit var gameResultTextView: TextView
 
-    private lateinit var gameResult:GameResult
+    private val arguments by navArgs<EndGameFragmentArgs>()
     private var _endGameBinding:EndGameLayoutBinding?= null
     private val endGameBinding:EndGameLayoutBinding
     get() = _endGameBinding?:throw RuntimeException("binding == null")
@@ -32,13 +34,9 @@ class EndGameFragment:Fragment() {
         return endGameBinding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-       requireArguments().getParcelable<GameResult>(KEY_GAME_RESULT)?.let {
-           gameResult = it
-       }
 
-    }
+
+
 
     private fun initViews() {
         gameResultImage = endGameBinding.gameResultImageView
@@ -59,7 +57,7 @@ class EndGameFragment:Fragment() {
         endGameBinding.restartGameButton.setOnClickListener(View.OnClickListener {
             retryGame()
         })
-        if(gameResult.isWinner){
+        if(arguments.result.isWinner){
             gameResultImage.setBackgroundResource(R.drawable.ic_baseline_sentiment_very_satisfied_24)
         }
         else{
@@ -69,14 +67,14 @@ class EndGameFragment:Fragment() {
     }
 
     private fun setText() {
-        if(gameResult.isWinner){
-            gameResultTextView.text = "Правильных ответов ${gameResult.countOfRightAnswers} " +
-                    "из ${gameResult.countOfQuestions} вы победили"
+        if(arguments.result.isWinner){
+            gameResultTextView.text = "Правильных ответов ${arguments.result.countOfRightAnswers} " +
+                    "из ${arguments.result.countOfQuestions} вы победили"
 
         }
         else{
-            gameResultTextView.text = "Правильных ответов ${gameResult.countOfRightAnswers} " +
-                    "из ${gameResult.countOfQuestions} вы лошара"
+            gameResultTextView.text = "Правильных ответов ${arguments.result.countOfRightAnswers} " +
+                    "из ${arguments.result.countOfQuestions} вы лошара"
 
         }
 
@@ -88,20 +86,9 @@ class EndGameFragment:Fragment() {
         _endGameBinding = null
 
     }
-    companion object{
-        private const val KEY_GAME_RESULT = "game_result"
-        fun getInstance(result:GameResult):EndGameFragment{
-           return EndGameFragment().apply {
-               arguments = Bundle().apply {
-                   putParcelable(KEY_GAME_RESULT,result)
-               }
-           }
 
-        }
-    }
     private fun retryGame(){
-        requireActivity().supportFragmentManager.
-        popBackStack(GameFragment.GAME_FRAGMENT,FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        findNavController().popBackStack()
 
     }
 
